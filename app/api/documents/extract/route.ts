@@ -25,44 +25,106 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Document not found' }, { status: 404 })
     }
 
-    // Get the document as base64 for AI processing
-    const arrayBuffer = await result.stream.getReader().read()
-    const base64 = Buffer.from(arrayBuffer.value || []).toString('base64')
+    // Read the full stream content
+    const reader = result.stream.getReader()
+    const chunks: Uint8Array[] = []
+    
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      if (value) chunks.push(value)
+    }
+    
+    // Combine all chunks into a single buffer
+    const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0)
+    const fullBuffer = new Uint8Array(totalLength)
+    let offset = 0
+    for (const chunk of chunks) {
+      fullBuffer.set(chunk, offset)
+      offset += chunk.length
+    }
+    
+    const base64 = Buffer.from(fullBuffer).toString('base64')
     const mimeType = result.blob.contentType || 'image/jpeg'
+    
+    // Check if it's a PDF - GPT-4V doesn't support PDFs directly
+    const isPdf = mimeType === 'application/pdf' || blobPath.toLowerCase().endsWith('.pdf')
 
     // Use AI to extract document data
     const prompt = getExtractionPrompt(documentType, category)
 
-    const { text } = await generateText({
-      model: 'openai/gpt-5-mini',
-      messages: [
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: prompt,
-            },
-            {
-              type: 'image',
-              image: `data:${mimeType};base64,${base64}`,
-            },
-          ],
-        },
-      ],
-    })
+    let text: string
+
+    if (isPdf) {
+      // For PDFs, use a model that supports file attachments or process as a document
+      // OpenAI's GPT-4o can handle PDFs when sent as files
+      const { text: pdfText } = await generateText({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: prompt,
+              },
+              {
+                type: 'file',
+                data: base64,
+                mimeType: 'application/pdf',
+              },
+            ],
+          },
+        ],
+      })
+      text = pdfText
+    } else {
+      // For images, use vision capabilities
+      const { text: imageText } = await generateText({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: prompt,
+              },
+              {
+                type: 'image',
+                image: `data:${mimeType};base64,${base64}`,
+              },
+            ],
+          },
+        ],
+      })
+      text = imageText
+    }
 
     // Parse the AI response
     const extractedData = parseAIResponse(text)
 
     return NextResponse.json(extractedData)
   } catch (error) {
-    console.error('Extraction error:', error)
+    console.error('[v0] Extraction error:', error)
+    console.error('[v0] Error details:', error instanceof Error ? error.message : 'Unknown error')
     
-    // Return error - do NOT allow invalid documents through
+    // Provide more specific error messages
+    let rejectionReason = 'Failed to process document. Please ensure you upload a clear image of the correct document type.'
+    
+    if (error instanceof Error) {
+      if (error.message.includes('rate limit')) {
+        rejectionReason = 'AI service is temporarily busy. Please try again in a moment.'
+      } else if (error.message.includes('too large')) {
+        rejectionReason = 'Document file is too large. Please upload a smaller file (under 10MB).'
+      } else if (error.message.includes('unsupported')) {
+        rejectionReason = 'File format not supported. Please upload a JPG, PNG, or PDF file.'
+      }
+    }
+    
     return NextResponse.json({
       isValidDocument: false,
-      rejectionReason: 'Failed to process document. Please ensure you upload a clear image of the correct document type.',
+      rejectionReason,
       confidence: 0,
     })
   }
