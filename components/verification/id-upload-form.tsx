@@ -422,9 +422,9 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
 
           {/* AI Extraction Mode */}
           <TabsContent value="ai" className="space-y-4 pt-4">
-            <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-200">
-              <AlertTriangle className="mr-2 inline h-4 w-4" />
-              AI extraction requires a valid Google Gemini API key. Use Manual Entry if AI is not available.
+            <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200">
+              <Sparkles className="mr-2 inline h-4 w-4" />
+              AI will automatically extract document details from your uploaded image. Use Manual Entry if you prefer to enter details yourself.
             </div>
 
             <div
