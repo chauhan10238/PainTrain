@@ -1,4 +1,5 @@
 import { generateText } from 'ai'
+import { google } from '@ai-sdk/google'
 import { get } from '@vercel/blob'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
@@ -65,9 +66,9 @@ export async function POST(request: NextRequest) {
     // Create data URL for the image
     const dataUrl = `data:${mimeType};base64,${base64}`
 
-    // Use OpenAI GPT-4o for vision - it's available without extra setup
+    // Use Google Gemini for vision (free tier available)
     const { text } = await generateText({
-      model: 'openai/gpt-4o',
+      model: google('gemini-2.0-flash'),
       messages: [
         {
           role: 'user',
