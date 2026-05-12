@@ -68,10 +68,10 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
     const selectedFile = e.target.files?.[0]
     if (!selectedFile) return
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
+    // Validate file type - only images supported for AI extraction
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
     if (!allowedTypes.includes(selectedFile.type)) {
-      setError('Please upload a JPG, PNG, WebP, or PDF file')
+      setError('Please upload an image file (JPG, PNG, or WebP). PDF files are not supported.')
       return
     }
 
@@ -224,7 +224,7 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
             <input
               ref={fileInputRef}
               type="file"
-              accept=".jpg,.jpeg,.png,.webp,.pdf"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
               onChange={handleFileSelect}
               className="hidden"
             />
@@ -243,7 +243,7 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
                 <Upload className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
                 <p className="font-medium">Click to upload or drag and drop</p>
                 <p className="text-sm text-muted-foreground">
-                  JPG, PNG, WebP or PDF (max 10MB)
+                  JPG, PNG, or WebP image (max 10MB)
                 </p>
               </>
             )}

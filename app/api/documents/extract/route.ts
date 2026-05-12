@@ -47,45 +47,40 @@ export async function POST(request: NextRequest) {
     const base64 = Buffer.from(fullBuffer).toString('base64')
     const mimeType = result.blob.contentType || 'image/jpeg'
     
-    // Check if it's a PDF - GPT-4V doesn't support PDFs directly
+    // Check if it's a PDF
     const isPdf = mimeType === 'application/pdf' || blobPath.toLowerCase().endsWith('.pdf')
+    
+    // PDFs need to be converted - for now, reject PDFs and ask for images
+    if (isPdf) {
+      return NextResponse.json({
+        isValidDocument: false,
+        rejectionReason: 'PDF files are not supported for AI verification. Please upload an image file (JPG, PNG) of your document instead.',
+        confidence: 0,
+      })
+    }
 
     // Use AI to extract document data
     const prompt = getExtractionPrompt(documentType, category)
 
-    // Create data URL for the file
+    // Create data URL for the image
     const dataUrl = `data:${mimeType};base64,${base64}`
 
-    // Use a model that supports both images and PDFs
-    // Claude 4 and Gemini support PDF natively
+    // Use OpenAI GPT-4o for vision - it's available without extra setup
     const { text } = await generateText({
-      model: 'anthropic/claude-sonnet-4',
+      model: 'openai/gpt-4o',
       messages: [
         {
           role: 'user',
-          content: isPdf
-            ? [
-                {
-                  type: 'text',
-                  text: prompt,
-                },
-                {
-                  type: 'file',
-                  filename: 'document.pdf',
-                  mediaType: 'application/pdf',
-                  url: dataUrl,
-                },
-              ]
-            : [
-                {
-                  type: 'text',
-                  text: prompt,
-                },
-                {
-                  type: 'image',
-                  image: dataUrl,
-                },
-              ],
+          content: [
+            {
+              type: 'text',
+              text: prompt,
+            },
+            {
+              type: 'image',
+              image: dataUrl,
+            },
+          ],
         },
       ],
     })
@@ -102,12 +97,14 @@ export async function POST(request: NextRequest) {
     let rejectionReason = 'Failed to process document. Please ensure you upload a clear image of the correct document type.'
     
     if (error instanceof Error) {
-      if (error.message.includes('rate limit')) {
+      if (error.message.includes('credit card') || error.message.includes('customer_verification')) {
+        rejectionReason = 'AI document verification requires billing setup. Please add a credit card to your Vercel account at vercel.com/account/billing to enable AI features.'
+      } else if (error.message.includes('rate limit')) {
         rejectionReason = 'AI service is temporarily busy. Please try again in a moment.'
       } else if (error.message.includes('too large')) {
         rejectionReason = 'Document file is too large. Please upload a smaller file (under 10MB).'
-      } else if (error.message.includes('unsupported')) {
-        rejectionReason = 'File format not supported. Please upload a JPG, PNG, or PDF file.'
+      } else if (error.message.includes('unsupported') || error.message.includes('schema')) {
+        rejectionReason = 'File format not supported. Please upload a JPG or PNG image file.'
       }
     }
     
