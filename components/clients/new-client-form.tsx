@@ -67,14 +67,18 @@ export function NewClientForm() {
       return
     }
 
-    const { data: staff } = await supabase
+    const { data: staff, error: staffError } = await supabase
       .from('staff')
       .select('organization_id')
       .eq('id', user.id)
       .single()
 
+    console.log('[v0] User ID:', user.id)
+    console.log('[v0] Staff query result:', staff)
+    console.log('[v0] Staff query error:', staffError)
+
     if (!staff) {
-      setError('Staff record not found')
+      setError(`Staff record not found: ${staffError?.message || 'Unknown error'}`)
       setIsLoading(false)
       return
     }
