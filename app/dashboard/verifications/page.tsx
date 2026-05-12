@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Select,
   SelectContent,
@@ -30,6 +31,12 @@ import {
   Eye,
   FileCheck,
   AlertTriangle,
+  PlayCircle,
+  RefreshCw,
+  User,
+  Building2,
+  Shield,
+  ArrowRight,
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ID_DOCUMENT_TYPES } from '@/lib/types'
@@ -97,6 +104,18 @@ export default async function VerificationsPage({
 
   const { data: verifications } = await query
 
+  // Get ALL clients with their verification status
+  const { data: allClients } = await supabase
+    .from('clients')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  // Categorize clients by verification status
+  const pendingClients = allClients?.filter(c => c.verification_status === 'pending') || []
+  const inProgressClients = allClients?.filter(c => c.verification_status === 'in_progress') || []
+  const verifiedClients = allClients?.filter(c => c.verification_status === 'verified') || []
+  const failedClients = allClients?.filter(c => c.verification_status === 'failed' || c.verification_status === 'expired') || []
+
   // Get stats
   const { count: totalCount } = await supabase
     .from('id_verifications')
@@ -146,15 +165,28 @@ export default async function VerificationsPage({
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card>
+        <Card className={pendingClients.length > 0 ? 'border-yellow-200 bg-yellow-50/50 dark:border-yellow-800 dark:bg-yellow-950/20' : ''}>
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
-              <div className="rounded-lg bg-secondary p-3">
-                <FileCheck className="h-5 w-5 text-muted-foreground" />
+              <div className="rounded-lg bg-yellow-100 p-3 dark:bg-yellow-900">
+                <Clock className="h-5 w-5 text-yellow-700 dark:text-yellow-400" />
               </div>
               <div>
-                <div className="text-2xl font-bold">{totalCount || 0}</div>
-                <p className="text-sm text-muted-foreground">Total Verifications</p>
+                <div className="text-2xl font-bold">{pendingClients.length}</div>
+                <p className="text-sm text-muted-foreground">Need Verification</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className={inProgressClients.length > 0 ? 'border-blue-200 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/20' : ''}>
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-4">
+              <div className="rounded-lg bg-blue-100 p-3 dark:bg-blue-900">
+                <RefreshCw className="h-5 w-5 text-blue-700 dark:text-blue-400" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold">{inProgressClients.length}</div>
+                <p className="text-sm text-muted-foreground">In Progress</p>
               </div>
             </div>
           </CardContent>
@@ -162,12 +194,12 @@ export default async function VerificationsPage({
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
-              <div className="rounded-lg bg-yellow-100 p-3">
-                <Clock className="h-5 w-5 text-yellow-700" />
+              <div className="rounded-lg bg-green-100 p-3 dark:bg-green-900">
+                <CheckCircle2 className="h-5 w-5 text-green-700 dark:text-green-400" />
               </div>
               <div>
-                <div className="text-2xl font-bold">{pendingCount || 0}</div>
-                <p className="text-sm text-muted-foreground">Pending Review</p>
+                <div className="text-2xl font-bold">{verifiedClients.length}</div>
+                <p className="text-sm text-muted-foreground">Fully Verified</p>
               </div>
             </div>
           </CardContent>
@@ -175,83 +207,320 @@ export default async function VerificationsPage({
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
-              <div className="rounded-lg bg-green-100 p-3">
-                <CheckCircle2 className="h-5 w-5 text-green-700" />
+              <div className="rounded-lg bg-red-100 p-3 dark:bg-red-900">
+                <AlertTriangle className="h-5 w-5 text-red-700 dark:text-red-400" />
               </div>
               <div>
-                <div className="text-2xl font-bold">{verifiedCount || 0}</div>
-                <p className="text-sm text-muted-foreground">Verified</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-4">
-              <div className="rounded-lg bg-purple-100 p-3">
-                <Sparkles className="h-5 w-5 text-purple-700" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold">
-                  {verifications?.filter(v => v.ai_confidence_score && v.ai_confidence_score > 0.8).length || 0}
-                </div>
-                <p className="text-sm text-muted-foreground">High AI Confidence</p>
+                <div className="text-2xl font-bold">{failedClients.length}</div>
+                <p className="text-sm text-muted-foreground">Failed/Expired</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center">
-            <form className="relative flex-1" action="/dashboard/verifications" method="GET">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                name="search"
-                type="search"
-                placeholder="Search by document number..."
-                defaultValue={params.search}
-                className="pl-9"
-              />
-            </form>
-            <div className="flex items-center gap-2">
-              <Select defaultValue={params.status || 'all'}>
-                <SelectTrigger className="w-[150px]">
-                  <Filter className="mr-2 h-4 w-4" />
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="ai_processed">AI Processed</SelectItem>
-                  <SelectItem value="verified">Verified</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select defaultValue={params.category || 'all'}>
-                <SelectTrigger className="w-[160px]">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="primary">Primary (70 pts)</SelectItem>
-                  <SelectItem value="secondary">Secondary (40 pts)</SelectItem>
-                  <SelectItem value="commencement">Commencement</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Client Verification Tabs */}
+      <Tabs defaultValue="pending" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="pending" className="gap-2">
+            <Clock className="h-4 w-4" />
+            Need Verification ({pendingClients.length})
+          </TabsTrigger>
+          <TabsTrigger value="in_progress" className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            In Progress ({inProgressClients.length})
+          </TabsTrigger>
+          <TabsTrigger value="verified" className="gap-2">
+            <CheckCircle2 className="h-4 w-4" />
+            Verified ({verifiedClients.length})
+          </TabsTrigger>
+          <TabsTrigger value="failed" className="gap-2">
+            <AlertTriangle className="h-4 w-4" />
+            Failed ({failedClients.length})
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Verifications Table */}
+        {/* Pending - Need to Start Verification */}
+        <TabsContent value="pending">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-yellow-600" />
+                Clients Awaiting Verification
+              </CardTitle>
+              <CardDescription>
+                These clients need 5-point ID verification to be started
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {pendingClients.length > 0 ? (
+                <div className="space-y-3">
+                  {pendingClients.map((client) => {
+                    const clientName = client.client_type === 'individual'
+                      ? `${client.first_name || ''} ${client.last_name || ''}`
+                      : client.entity_name || 'Unknown'
+                    const ClientIcon = client.client_type === 'individual' ? User : Building2
+
+                    return (
+                      <div key={client.id} className="flex items-center justify-between rounded-lg border border-yellow-200 bg-yellow-50/50 p-4 dark:border-yellow-800 dark:bg-yellow-950/20">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-100 dark:bg-yellow-900">
+                            <ClientIcon className="h-6 w-6 text-yellow-700 dark:text-yellow-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{clientName}</p>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <span className="capitalize">{client.client_type}</span>
+                              <span>•</span>
+                              <span>{client.email || 'No email'}</span>
+                              <span>•</span>
+                              <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                                {client.verification_points}/100 points
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        <Button asChild>
+                          <Link href={`/dashboard/clients/${client.id}/verify`}>
+                            <PlayCircle className="mr-2 h-4 w-4" />
+                            Start Verification
+                          </Link>
+                        </Button>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <CheckCircle2 className="mb-4 h-12 w-12 text-green-500" />
+                  <h3 className="mb-2 text-lg font-semibold">All caught up!</h3>
+                  <p className="text-sm text-muted-foreground">
+                    No clients are waiting for verification to start
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* In Progress - Need to Continue/Complete Verification */}
+        <TabsContent value="in_progress">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <RefreshCw className="h-5 w-5 text-blue-600" />
+                Verification In Progress
+              </CardTitle>
+              <CardDescription>
+                These clients have started verification but need more documents to reach 100 points
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {inProgressClients.length > 0 ? (
+                <div className="space-y-3">
+                  {inProgressClients.map((client) => {
+                    const clientName = client.client_type === 'individual'
+                      ? `${client.first_name || ''} ${client.last_name || ''}`
+                      : client.entity_name || 'Unknown'
+                    const ClientIcon = client.client_type === 'individual' ? User : Building2
+                    const progressPercent = Math.min(100, client.verification_points)
+
+                    return (
+                      <div key={client.id} className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50/50 p-4 dark:border-blue-800 dark:bg-blue-950/20">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
+                            <ClientIcon className="h-6 w-6 text-blue-700 dark:text-blue-400" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium">{clientName}</p>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <span className="capitalize">{client.client_type}</span>
+                              <span>•</span>
+                              <span>{client.email || 'No email'}</span>
+                            </div>
+                            <div className="mt-2 flex items-center gap-3">
+                              <div className="h-2 w-32 rounded-full bg-blue-200 dark:bg-blue-800">
+                                <div 
+                                  className="h-2 rounded-full bg-blue-600" 
+                                  style={{ width: `${progressPercent}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
+                                {client.verification_points}/100 points
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <Button asChild>
+                          <Link href={`/dashboard/clients/${client.id}/verify`}>
+                            <ArrowRight className="mr-2 h-4 w-4" />
+                            Continue Verification
+                          </Link>
+                        </Button>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <ClipboardCheck className="mb-4 h-12 w-12 text-muted-foreground/50" />
+                  <h3 className="mb-2 text-lg font-semibold">No verifications in progress</h3>
+                  <p className="text-sm text-muted-foreground">
+                    All started verifications have been completed
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Verified - Completed */}
+        <TabsContent value="verified">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                Fully Verified Clients
+              </CardTitle>
+              <CardDescription>
+                These clients have completed 5-point ID verification (100+ points)
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {verifiedClients.length > 0 ? (
+                <div className="space-y-3">
+                  {verifiedClients.map((client) => {
+                    const clientName = client.client_type === 'individual'
+                      ? `${client.first_name || ''} ${client.last_name || ''}`
+                      : client.entity_name || 'Unknown'
+                    const ClientIcon = client.client_type === 'individual' ? User : Building2
+
+                    return (
+                      <div key={client.id} className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50/50 p-4 dark:border-green-800 dark:bg-green-950/20">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
+                            <CheckCircle2 className="h-6 w-6 text-green-700 dark:text-green-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{clientName}</p>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <span className="capitalize">{client.client_type}</span>
+                              <span>•</span>
+                              <span>{client.email || 'No email'}</span>
+                              <span>•</span>
+                              <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                                <CheckCircle2 className="mr-1 h-3 w-3" />
+                                {client.verification_points} points verified
+                              </Badge>
+                            </div>
+                            {client.verified_at && (
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                Verified {formatDistanceToNow(new Date(client.verified_at), { addSuffix: true })}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button variant="outline" asChild>
+                            <Link href={`/dashboard/clients/${client.id}`}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              View Details
+                            </Link>
+                          </Button>
+                          <Button variant="secondary" asChild>
+                            <Link href={`/dashboard/clients/${client.id}/verify`}>
+                              <RefreshCw className="mr-2 h-4 w-4" />
+                              Update
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Shield className="mb-4 h-12 w-12 text-muted-foreground/50" />
+                  <h3 className="mb-2 text-lg font-semibold">No verified clients yet</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Complete the 5-point verification process for your clients
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Failed/Expired */}
+        <TabsContent value="failed">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-red-600" />
+                Failed or Expired Verifications
+              </CardTitle>
+              <CardDescription>
+                These clients need attention - verification failed or has expired
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {failedClients.length > 0 ? (
+                <div className="space-y-3">
+                  {failedClients.map((client) => {
+                    const clientName = client.client_type === 'individual'
+                      ? `${client.first_name || ''} ${client.last_name || ''}`
+                      : client.entity_name || 'Unknown'
+                    const ClientIcon = client.client_type === 'individual' ? User : Building2
+
+                    return (
+                      <div key={client.id} className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50/50 p-4 dark:border-red-800 dark:bg-red-950/20">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900">
+                            <AlertTriangle className="h-6 w-6 text-red-700 dark:text-red-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{clientName}</p>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                              <span className="capitalize">{client.client_type}</span>
+                              <span>•</span>
+                              <span>{client.email || 'No email'}</span>
+                              <span>•</span>
+                              <Badge variant="destructive">
+                                {client.verification_status === 'expired' ? 'Expired' : 'Failed'}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        <Button variant="destructive" asChild>
+                          <Link href={`/dashboard/clients/${client.id}/verify`}>
+                            <RefreshCw className="mr-2 h-4 w-4" />
+                            Restart Verification
+                          </Link>
+                        </Button>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <CheckCircle2 className="mb-4 h-12 w-12 text-green-500" />
+                  <h3 className="mb-2 text-lg font-semibold">No failed verifications</h3>
+                  <p className="text-sm text-muted-foreground">
+                    All verifications are in good standing
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      {/* Document Verifications Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Verifications</CardTitle>
+          <CardTitle>Uploaded ID Documents</CardTitle>
           <CardDescription>
-            {verifications?.length || 0} verification documents
+            All {verifications?.length || 0} identity documents submitted for verification
           </CardDescription>
         </CardHeader>
         <CardContent>
