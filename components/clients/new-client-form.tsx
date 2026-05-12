@@ -73,12 +73,8 @@ export function NewClientForm() {
       .eq('id', user.id)
       .single()
 
-    console.log('[v0] User ID:', user.id)
-    console.log('[v0] Staff query result:', staff)
-    console.log('[v0] Staff query error:', staffError)
-
-    if (!staff) {
-      setError(`Staff record not found: ${staffError?.message || 'Unknown error'}`)
+    if (!staff || staffError) {
+      setError(`Staff record not found: ${staffError?.message || 'Please contact support'}`)
       setIsLoading(false)
       return
     }
