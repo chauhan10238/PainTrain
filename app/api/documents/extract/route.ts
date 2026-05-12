@@ -53,53 +53,42 @@ export async function POST(request: NextRequest) {
     // Use AI to extract document data
     const prompt = getExtractionPrompt(documentType, category)
 
-    let text: string
+    // Create data URL for the file
+    const dataUrl = `data:${mimeType};base64,${base64}`
 
-    if (isPdf) {
-      // For PDFs, use a model that supports file attachments or process as a document
-      // OpenAI's GPT-4o can handle PDFs when sent as files
-      const { text: pdfText } = await generateText({
-        model: 'openai/gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: prompt,
-              },
-              {
-                type: 'file',
-                data: base64,
-                mimeType: 'application/pdf',
-              },
-            ],
-          },
-        ],
-      })
-      text = pdfText
-    } else {
-      // For images, use vision capabilities
-      const { text: imageText } = await generateText({
-        model: 'openai/gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: prompt,
-              },
-              {
-                type: 'image',
-                image: `data:${mimeType};base64,${base64}`,
-              },
-            ],
-          },
-        ],
-      })
-      text = imageText
-    }
+    // Use a model that supports both images and PDFs
+    // Claude 4 and Gemini support PDF natively
+    const { text } = await generateText({
+      model: 'anthropic/claude-sonnet-4',
+      messages: [
+        {
+          role: 'user',
+          content: isPdf
+            ? [
+                {
+                  type: 'text',
+                  text: prompt,
+                },
+                {
+                  type: 'file',
+                  filename: 'document.pdf',
+                  mediaType: 'application/pdf',
+                  url: dataUrl,
+                },
+              ]
+            : [
+                {
+                  type: 'text',
+                  text: prompt,
+                },
+                {
+                  type: 'image',
+                  image: dataUrl,
+                },
+              ],
+        },
+      ],
+    })
 
     // Parse the AI response
     const extractedData = parseAIResponse(text)
