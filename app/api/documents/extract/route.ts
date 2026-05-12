@@ -63,23 +63,22 @@ export async function POST(request: NextRequest) {
     // Use AI to extract document data
     const prompt = getExtractionPrompt(documentType, category)
 
-    // Create data URL for the image
-    const dataUrl = `data:${mimeType};base64,${base64}`
-
     // Use Google Gemini for vision (free tier available)
+    // Pass base64 directly as a Buffer for better compatibility
     const { text } = await generateText({
-      model: google('gemini-2.0-flash'),
+      model: google('gemini-2.0-flash-exp'),
       messages: [
         {
           role: 'user',
           content: [
             {
-              type: 'text',
-              text: prompt,
+              type: 'image',
+              image: Buffer.from(fullBuffer),
+              mimeType: mimeType as 'image/jpeg' | 'image/png' | 'image/webp' | 'image/gif',
             },
             {
-              type: 'image',
-              image: dataUrl,
+              type: 'text',
+              text: prompt,
             },
           ],
         },
