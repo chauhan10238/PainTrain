@@ -21,7 +21,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
-import { Upload, FileText, Sparkles, Check, Loader2 } from 'lucide-react'
+import { Upload, FileText, Sparkles, Check, Loader2, AlertTriangle } from 'lucide-react'
 import { IDCategory } from '@/lib/types'
 
 interface DocumentType {
@@ -37,6 +37,10 @@ interface IDUploadFormProps {
 }
 
 interface ExtractedData {
+  isValidDocument?: boolean
+  detectedDocumentType?: string
+  expectedDocumentType?: string
+  rejectionReason?: string
   documentNumber?: string
   issuingAuthority?: string
   issueDate?: string
@@ -125,6 +129,27 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
       }
 
       const extracted = await extractResponse.json()
+      
+      // Check if document was rejected by AI validation
+      if (extracted.isValidDocument === false) {
+        setError(extracted.rejectionReason || 'This document does not match the selected document type. Please upload the correct document.')
+        setFile(null)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+        return
+      }
+      
+      // Also reject if confidence is too low
+      if (extracted.confidence < 0.6) {
+        setError(`Document verification confidence is too low (${Math.round(extracted.confidence * 100)}%). Please upload a clearer image of your ${selectedType.replace(/_/g, ' ')}.`)
+        setFile(null)
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+        return
+      }
+      
       setExtractedData(extracted)
       setShowReviewDialog(true)
     } catch (err) {
@@ -272,12 +297,30 @@ export function IDUploadForm({ clientId, category, documentTypes }: IDUploadForm
 
           {extractedData && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between rounded-lg bg-secondary p-3">
+              <div className={`flex items-center justify-between rounded-lg p-3 ${
+                extractedData.confidence >= 0.8 ? 'bg-green-50 dark:bg-green-950' : 
+                extractedData.confidence >= 0.6 ? 'bg-yellow-50 dark:bg-yellow-950' : 
+                'bg-red-50 dark:bg-red-950'
+              }`}>
                 <span className="text-sm text-muted-foreground">AI Confidence</span>
-                <Badge variant={extractedData.confidence > 0.8 ? 'default' : 'secondary'}>
-                  {Math.round(extractedData.confidence * 100)}%
-                </Badge>
+                <div className="flex items-center gap-2">
+                  {extractedData.confidence < 0.8 && (
+                    <AlertTriangle className={`h-4 w-4 ${
+                      extractedData.confidence >= 0.6 ? 'text-yellow-600' : 'text-red-600'
+                    }`} />
+                  )}
+                  <Badge variant={extractedData.confidence >= 0.8 ? 'default' : extractedData.confidence >= 0.6 ? 'secondary' : 'destructive'}>
+                    {Math.round(extractedData.confidence * 100)}%
+                  </Badge>
+                </div>
               </div>
+              
+              {extractedData.confidence < 0.8 && extractedData.confidence >= 0.6 && (
+                <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-200">
+                  <AlertTriangle className="mr-2 inline h-4 w-4" />
+                  Moderate confidence - please verify the extracted data carefully before confirming.
+                </div>
+              )}
 
               <div className="grid gap-3">
                 {extractedData.fullName && (

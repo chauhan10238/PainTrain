@@ -59,36 +59,51 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Extraction error:', error)
     
-    // Return mock data for demo purposes if AI fails
+    // Return error - do NOT allow invalid documents through
     return NextResponse.json({
-      documentNumber: 'PA' + Math.random().toString().slice(2, 10),
-      issuingAuthority: 'Australian Passport Office',
-      issueDate: '2020-01-15',
-      expiryDate: '2030-01-15',
-      fullName: 'John Smith',
-      dateOfBirth: '1985-06-20',
-      confidence: 0.92,
+      isValidDocument: false,
+      rejectionReason: 'Failed to process document. Please ensure you upload a clear image of the correct document type.',
+      confidence: 0,
     })
   }
 }
 
 function getExtractionPrompt(documentType: string, category: string): string {
-  const basePrompt = `You are analyzing an identity document for AML compliance verification. 
-Extract the following information from this ${documentType.replace(/_/g, ' ')} document.
+  const docTypeName = documentType.replace(/_/g, ' ')
+  
+  const basePrompt = `You are an expert AML compliance document validator. You MUST verify that the uploaded image is actually a ${docTypeName}.
 
-Return ONLY a JSON object with these fields (use null for any field you cannot find):
+STEP 1 - DOCUMENT TYPE VALIDATION:
+First, determine what type of document this image shows. Is it:
+- A valid identity document (passport, driver's license, birth certificate, etc.)?
+- Or something else entirely (random document, classroom file, screenshot, photo, etc.)?
+
+If this is NOT a valid identity document, OR if it does NOT match the expected document type "${docTypeName}", return:
 {
-  "documentNumber": "the document/passport/license number",
-  "issuingAuthority": "the issuing authority or country",
-  "issueDate": "YYYY-MM-DD format",
-  "expiryDate": "YYYY-MM-DD format", 
-  "fullName": "the person's full name",
-  "dateOfBirth": "YYYY-MM-DD format",
-  "address": "full address if present",
-  "confidence": 0.0-1.0 confidence score
+  "isValidDocument": false,
+  "detectedDocumentType": "describe what the image actually shows",
+  "expectedDocumentType": "${docTypeName}",
+  "rejectionReason": "This does not appear to be a ${docTypeName}. The image shows [describe what it actually is].",
+  "confidence": 0.0
 }
 
-Be precise and only extract what is clearly visible. Set confidence based on image quality and clarity.`
+STEP 2 - DATA EXTRACTION (only if document type matches):
+If and ONLY if this IS a valid ${docTypeName}, extract the following:
+{
+  "isValidDocument": true,
+  "detectedDocumentType": "${docTypeName}",
+  "expectedDocumentType": "${docTypeName}",
+  "documentNumber": "the document/passport/license number",
+  "issuingAuthority": "the issuing authority or country",
+  "issueDate": "YYYY-MM-DD format or null",
+  "expiryDate": "YYYY-MM-DD format or null", 
+  "fullName": "the person's full name",
+  "dateOfBirth": "YYYY-MM-DD format or null",
+  "address": "full address if present or null",
+  "confidence": 0.0-1.0 confidence score based on image quality and data clarity
+}
+
+Return ONLY the JSON object, no other text. Be STRICT about document type validation - do not accept anything other than a genuine ${docTypeName}.`
 
   return basePrompt
 }
