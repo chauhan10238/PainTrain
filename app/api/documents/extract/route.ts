@@ -97,7 +97,9 @@ export async function POST(request: NextRequest) {
     let rejectionReason = 'Failed to process document. Please ensure you upload a clear image of the correct document type.'
     
     if (error instanceof Error) {
-      if (error.message.includes('credit card') || error.message.includes('customer_verification')) {
+      if (error.message.includes('API key not valid') || error.message.includes('API_KEY_INVALID')) {
+        rejectionReason = 'Google Gemini API key is invalid. Please check your GOOGLE_GENERATIVE_AI_API_KEY in environment variables. Get a valid key at: https://aistudio.google.com/apikey'
+      } else if (error.message.includes('credit card') || error.message.includes('customer_verification')) {
         rejectionReason = 'AI document verification requires billing setup. Please add a credit card to your Vercel account at vercel.com/account/billing to enable AI features.'
       } else if (error.message.includes('rate limit')) {
         rejectionReason = 'AI service is temporarily busy. Please try again in a moment.'
