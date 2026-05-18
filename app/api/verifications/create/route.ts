@@ -64,12 +64,16 @@ export async function POST(request: NextRequest) {
 
     const newPoints = (client?.verification_points || 0) + points
     const newStatus = newPoints >= 100 ? 'verified' : 'in_progress'
+    
+    // Determine onboarding status - if 100 points reached, ready for Stripe Identity
+    const onboardingStatus = newPoints >= 100 ? 'documents_uploaded' : 'pending'
 
     const { error: updateError } = await supabase
       .from('clients')
       .update({
         verification_points: newPoints,
         verification_status: newStatus,
+        onboarding_status: onboardingStatus,
         verified_at: newStatus === 'verified' ? new Date().toISOString() : null,
         verified_by: newStatus === 'verified' ? user.id : null,
         updated_at: new Date().toISOString(),
@@ -106,6 +110,7 @@ export async function POST(request: NextRequest) {
         entity_id: clientId,
         details: {
           total_points: newPoints,
+          ready_for_biometric: true,
         },
         performed_by: user.id,
         performed_by_email: user.email,
@@ -117,6 +122,7 @@ export async function POST(request: NextRequest) {
       verification,
       clientStatus: newStatus,
       totalPoints: newPoints,
+      readyForBiometric: newPoints >= 100,
     })
   } catch (error) {
     console.error('Verification create error:', error)

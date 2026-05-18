@@ -23,6 +23,7 @@ import { formatDistanceToNow, format } from 'date-fns'
 import { VerificationProgress } from '@/components/clients/verification-progress'
 import { ClientNotes } from '@/components/clients/client-notes'
 import { IDVerificationList } from '@/components/clients/id-verification-list'
+import { StripeIdentityVerification } from '@/components/verification/stripe-identity-verification'
 
 const statusColors: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -136,6 +137,19 @@ export default async function ClientDetailPage({
         points={client.verification_points} 
         status={client.verification_status}
       />
+
+      {/* Stripe Identity Verification - show when 100 points reached or biometric in progress */}
+      {(client.verification_points >= 100 || client.stripe_identity_status) && (
+        <StripeIdentityVerification
+          clientId={client.id}
+          clientName={clientName}
+          verificationPoints={client.verification_points}
+          stripeIdentityStatus={client.stripe_identity_status}
+          biometricVerifiedAt={client.biometric_verified_at}
+          onboardingStatus={client.onboarding_status}
+          riskScore={client.risk_score}
+        />
+      )}
 
       {/* Tabs */}
       <Tabs defaultValue="details" className="space-y-6">
