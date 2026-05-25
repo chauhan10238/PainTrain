@@ -49,7 +49,7 @@ export function StripeIdentityVerification({
   const [showDialog, setShowDialog] = useState(false)
 
   const canStartVerification = verificationPoints >= 100 && 
-    (!stripeIdentityStatus || ['failed', 'canceled'].includes(stripeIdentityStatus))
+    (!stripeIdentityStatus || stripeIdentityStatus === 'pending' || ['failed', 'canceled'].includes(stripeIdentityStatus))
   
   const isVerified = stripeIdentityStatus === 'verified'
   const isPending = stripeIdentityStatus === 'processing' || stripeIdentityStatus === 'requires_input'
