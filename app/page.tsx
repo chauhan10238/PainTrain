@@ -26,6 +26,14 @@ import {
   Brain,
   Calculator,
   FileSpreadsheet,
+  Send,
+  UserCheck,
+  ClipboardList,
+  Bot,
+  ShieldCheck,
+  Database,
+  UsersRound,
+  LineChart,
 } from 'lucide-react'
 
 export default function LandingPage() {
@@ -201,6 +209,290 @@ export default function LandingPage() {
                 </Link>
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 — The Workflow (Visual) */}
+      <section className="border-b border-border py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              From New Client → <span className="text-[#0066FF]">AML Ready</span> in Minutes
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Our streamlined workflow takes clients from onboarding to compliance in 5 simple steps
+            </p>
+          </div>
+
+          <div className="mt-16">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+              {[
+                { step: 1, icon: Users, title: 'Create Client', desc: 'Individual | Company | Trust' },
+                { step: 2, icon: Send, title: 'Send Secure Link', desc: 'Client completes details' },
+                { step: 3, icon: UserCheck, title: 'Verify Identity', desc: 'Digital verification completed' },
+                { step: 4, icon: Brain, title: 'AI Risk Review', desc: 'Risk profile generated' },
+                { step: 5, icon: ShieldCheck, title: 'Audit Ready', desc: 'Reports & registers maintained' },
+              ].map((item, i, arr) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="relative">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0066FF] text-white shadow-lg">
+                        <item.icon className="h-7 w-7" />
+                      </div>
+                      <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-xs font-bold text-background">
+                        {item.step}
+                      </div>
+                    </div>
+                    <h3 className="mt-4 font-semibold">{item.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <ArrowRight className="hidden h-6 w-6 shrink-0 text-muted-foreground md:block" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4 — Core Product Modules */}
+      <section className="bg-muted/30 py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              One Platform. <span className="text-[#0066FF]">Everything Connected.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Four powerful modules working together to simplify your AML compliance
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {/* Client Onboarding Hub */}
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
+                <Users className="h-6 w-6 text-[#0066FF]" />
+              </div>
+              <h3 className="text-lg font-semibold">Client Onboarding Hub</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Your digital front door.</p>
+              <ul className="mt-4 space-y-2">
+                {['Client profiles', 'Entity management', 'Secure invitations', 'Automated reminders', 'Document collection'].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Identity Verification */}
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
+                <Fingerprint className="h-6 w-6 text-[#0066FF]" />
+              </div>
+              <h3 className="text-lg font-semibold">Identity Verification</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Stop manually checking IDs.</p>
+              <ul className="mt-4 space-y-2">
+                {['Digital ID checks', 'Verification history', 'Evidence stored', 'Audit trail'].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* AML Compliance Centre */}
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
+                <ClipboardList className="h-6 w-6 text-[#0066FF]" />
+              </div>
+              <h3 className="text-lg font-semibold">AML Compliance Centre</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Your compliance workspace.</p>
+              <ul className="mt-4 space-y-2">
+                {['Customer Risk Register', 'Beneficial Ownership', 'PEP Screening', 'Sanctions Records', 'Training Register'].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* AI Compliance Assistant */}
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
+                <Bot className="h-6 w-6 text-[#0066FF]" />
+              </div>
+              <h3 className="text-lg font-semibold">AI Compliance Assistant</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Your virtual AML support.</p>
+              <ul className="mt-4 space-y-2">
+                {['Review client risk', 'Find missing info', 'Prepare summaries', 'Suggest next steps', 'Reduce admin time'].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5 — Industry Selection */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              Built Around <span className="text-[#0066FF]">Your Business</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Purpose-built solutions for Australian professional services
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {/* Accountants */}
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+                <Calculator className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold">Accountants</h3>
+              <p className="mt-2 text-muted-foreground">
+                Manage AML compliance without slowing your practice.
+              </p>
+              <div className="mt-6 space-y-2 text-sm">
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Tax clients</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Companies</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Trusts</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Business structures</div>
+              </div>
+            </div>
+
+            {/* Bookkeepers */}
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+                <FileSpreadsheet className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold">Bookkeepers</h3>
+              <p className="mt-2 text-muted-foreground">
+                Simple compliance for growing client lists.
+              </p>
+              <div className="mt-6 space-y-2 text-sm">
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Client onboarding</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Record keeping</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Reviews</div>
+              </div>
+            </div>
+
+            {/* Real Estate */}
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+                <Home className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold">Real Estate</h3>
+              <p className="mt-2 text-muted-foreground">
+                AML workflows for property professionals.
+              </p>
+              <div className="mt-6 space-y-2 text-sm">
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Vendor onboarding</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Buyer checks</div>
+                <div className="rounded-lg bg-muted/50 px-3 py-2">Transaction records</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6 — The AI Differentiator */}
+      <section className="bg-gradient-to-b from-[#0066FF] to-[#0052CC] py-20 text-white">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              Compliance Software That Works <span className="text-white/90">With You</span>
+            </h2>
+          </div>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-2">
+            {/* Traditional */}
+            <div className="rounded-2xl border border-white/20 bg-white/10 p-8 backdrop-blur">
+              <h3 className="mb-6 text-lg font-semibold text-white/80">Traditional AML tools:</h3>
+              <div className="flex items-center justify-center gap-4">
+                <div className="rounded-lg bg-white/10 px-4 py-3 text-center">
+                  <span className="text-sm">You fill forms</span>
+                </div>
+                <ArrowRight className="h-5 w-5 text-white/50" />
+                <div className="rounded-lg bg-white/10 px-4 py-3 text-center">
+                  <span className="text-sm">You track</span>
+                </div>
+                <ArrowRight className="h-5 w-5 text-white/50" />
+                <div className="rounded-lg bg-white/10 px-4 py-3 text-center">
+                  <span className="text-sm">You remember</span>
+                </div>
+              </div>
+              <p className="mt-6 text-center text-sm text-white/60">
+                Manual, time-consuming, error-prone
+              </p>
+            </div>
+
+            {/* Our Platform */}
+            <div className="rounded-2xl border border-white/30 bg-white p-8 text-foreground">
+              <h3 className="mb-6 text-lg font-semibold text-[#0066FF]">Our platform:</h3>
+              <div className="flex items-center justify-center gap-4">
+                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                  <span className="text-sm font-medium">Client submits</span>
+                </div>
+                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
+                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                  <span className="text-sm font-medium">AI reviews</span>
+                </div>
+                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
+                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                  <span className="text-sm font-medium">System alerts</span>
+                </div>
+                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
+                <div className="rounded-lg bg-green-100 px-4 py-3 text-center">
+                  <span className="text-sm font-medium text-green-700">Reports ready</span>
+                </div>
+              </div>
+              <p className="mt-6 text-center text-sm text-muted-foreground">
+                Automated, accurate, always compliant
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7 — Trust Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              Built for <span className="text-[#0066FF]">Australian Compliance</span> Requirements
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Designed from the ground up to meet AUSTRAC&apos;s AML/CTF requirements
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { icon: Lock, title: 'Secure Storage', desc: 'Bank-level encryption' },
+              { icon: Database, title: 'Audit Trail', desc: 'Every action logged' },
+              { icon: UsersRound, title: 'Team Access', desc: 'Role-based permissions' },
+              { icon: LineChart, title: 'Compliance Dashboard', desc: 'Real-time insights' },
+              { icon: Bot, title: 'AI Powered Reviews', desc: 'Smart risk detection' },
+            ].map((item) => (
+              <div key={item.title} className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-[#0066FF] hover:shadow-md">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#0066FF]/10">
+                  <item.icon className="h-7 w-7 text-[#0066FF]" />
+                </div>
+                <h3 className="font-semibold">{item.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
