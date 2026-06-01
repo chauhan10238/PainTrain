@@ -19,6 +19,13 @@ import {
   BarChart3,
   Zap,
   Lock,
+  XCircle,
+  AlertTriangle,
+  Mail,
+  CreditCard,
+  Brain,
+  Calculator,
+  FileSpreadsheet,
 } from 'lucide-react'
 
 export default function LandingPage() {
@@ -147,6 +154,57 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Urgency / Regulation Hook Section */}
+      <section className="border-b border-border bg-gradient-to-b from-red-50 to-background py-16 dark:from-red-950/20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+              <AlertTriangle className="h-8 w-8 text-red-600" />
+            </div>
+            <h2 className="text-3xl font-bold md:text-4xl">
+              New AML Requirements Are Coming.{' '}
+              <span className="text-red-600">Is Your Business Ready?</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+              For many firms, compliance means:
+            </p>
+          </div>
+          
+          <div className="mx-auto mt-10 grid max-w-4xl gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: FileSearch, text: 'Chasing clients for documents' },
+              { icon: FileSpreadsheet, text: 'Manual spreadsheets' },
+              { icon: Mail, text: 'Lost email attachments' },
+              { icon: Clock, text: 'No central audit history' },
+              { icon: BarChart3, text: 'Hours preparing reports' },
+              { icon: AlertTriangle, text: 'Risk of non-compliance fines' },
+            ].map((pain, i) => (
+              <div key={i} className="flex items-center gap-3 rounded-lg border border-red-200 bg-white p-4 dark:border-red-800 dark:bg-red-950/20">
+                <XCircle className="h-5 w-5 shrink-0 text-red-500" />
+                <span className="text-sm font-medium">{pain.text}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <div className="mx-auto max-w-2xl rounded-xl border border-[#0066FF]/30 bg-[#0066FF]/5 p-6">
+              <p className="text-lg font-semibold text-[#0066FF]">
+                We turn AML compliance into a simple automated workflow.
+              </p>
+              <p className="mt-2 text-muted-foreground">
+                Stop wasting time on manual processes. Let AML Comply handle the heavy lifting.
+              </p>
+              <Button asChild className="mt-4 bg-[#0066FF] hover:bg-[#0052CC]">
+                <Link href="/auth/sign-up">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Onboarding Section */}
       <section id="onboarding" className="bg-gradient-to-b from-[#0066FF] to-[#0052CC] py-16 text-white">
         <div className="mx-auto max-w-7xl px-6">
@@ -212,25 +270,103 @@ export default function LandingPage() {
       </section>
 
       {/* Integrations */}
-      <section className="border-b border-border py-12">
+      <section className="border-b border-border py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid items-center gap-8 lg:grid-cols-2">
-            <div>
-              <h2 className="text-2xl font-bold">
-                AML Comply integrates with platforms you already use
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Synchronise your contacts between AML Comply and your favourite accounting 
-                platform. Automatically sync client data with Xero, QuickBooks, MYOB, and more.
-              </p>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold md:text-3xl">
+              Integrates with platforms you already use
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Synchronise your contacts, automate document collection, and streamline payments. 
+              AML Comply works seamlessly with your existing tech stack.
+            </p>
+          </div>
+          
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Accounting */}
+            <div className="rounded-xl border border-border bg-card p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <Calculator className="h-5 w-5 text-[#0066FF]" />
+                <span className="text-sm font-semibold text-muted-foreground">ACCOUNTING</span>
+              </div>
+              <div className="space-y-3">
+                {['Xero', 'QuickBooks', 'MYOB', 'Sage'].map((name) => (
+                  <div key={name} className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-muted text-xs font-bold">
+                      {name[0]}
+                    </div>
+                    <span className="text-sm font-medium">{name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-8 lg:justify-end">
-              {['Xero', 'QuickBooks', 'MYOB', 'Stripe'].map((name) => (
-                <div key={name} className="flex h-12 items-center justify-center rounded-lg bg-muted px-6 text-sm font-medium text-muted-foreground">
-                  {name}
-                </div>
-              ))}
+
+            {/* Payments & Identity */}
+            <div className="rounded-xl border border-border bg-card p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <CreditCard className="h-5 w-5 text-[#0066FF]" />
+                <span className="text-sm font-semibold text-muted-foreground">PAYMENTS & IDENTITY</span>
+              </div>
+              <div className="space-y-3">
+                {['Stripe', 'Stripe Identity'].map((name) => (
+                  <div key={name} className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-[#635BFF] text-xs font-bold text-white">
+                      S
+                    </div>
+                    <span className="text-sm font-medium">{name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* AI & Automation */}
+            <div className="rounded-xl border border-border bg-card p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <Brain className="h-5 w-5 text-[#0066FF]" />
+                <span className="text-sm font-semibold text-muted-foreground">AI & AUTOMATION</span>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { name: 'Groq AI', color: 'bg-orange-500' },
+                  { name: 'Document AI', color: 'bg-green-500' },
+                ].map((item) => (
+                  <div key={item.name} className="flex items-center gap-3">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded ${item.color} text-xs font-bold text-white`}>
+                      {item.name[0]}
+                    </div>
+                    <span className="text-sm font-medium">{item.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Communication */}
+            <div className="rounded-xl border border-border bg-card p-6">
+              <div className="mb-4 flex items-center gap-2">
+                <Mail className="h-5 w-5 text-[#0066FF]" />
+                <span className="text-sm font-semibold text-muted-foreground">COMMUNICATION</span>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { name: 'Gmail', color: 'bg-red-500' },
+                  { name: 'Outlook', color: 'bg-blue-600' },
+                  { name: 'SendGrid', color: 'bg-blue-400' },
+                ].map((item) => (
+                  <div key={item.name} className="flex items-center gap-3">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded ${item.color} text-xs font-bold text-white`}>
+                      {item.name[0]}
+                    </div>
+                    <span className="text-sm font-medium">{item.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              More integrations coming soon. <Link href="#contact" className="text-[#0066FF] hover:underline">Request an integration</Link>
+            </p>
           </div>
         </div>
       </section>
