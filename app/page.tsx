@@ -514,7 +514,7 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 8 — Testimonials */}
-      <section className="border-b border-border py-20">
+      <section className="border-b border-border py-20 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <span className="inline-block rounded-full bg-[#10B981]/10 px-4 py-1.5 text-sm font-medium text-[#10B981]">
@@ -527,101 +527,98 @@ export default function LandingPage() {
               Trusted by accounting firms, bookkeepers, and real estate professionals across Australia
             </p>
           </div>
+        </div>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
-            {/* Testimonial 1 */}
-            <div className="relative rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-lg">
-              <div className="absolute -top-4 left-8">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
-                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
+        {/* Scrolling testimonials */}
+        <div className="relative mt-16">
+          {/* Gradient overlays */}
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-background to-transparent" />
+          
+          <div className="flex animate-scroll gap-6 hover:[animation-play-state:paused]">
+            {[
+              { initials: 'SM', name: 'Sarah Mitchell', role: 'Partner, Mitchell & Associates', quote: 'AML Comply has transformed how we handle client onboarding. What used to take hours now takes minutes. The automated ID verification alone has saved us countless hours each week.' },
+              { initials: 'JC', name: 'James Chen', role: 'Director, Pacific Bookkeeping', quote: 'The AI risk assessment feature is incredible. It flags potential issues before they become problems, and the audit trail gives us complete peace of mind during compliance reviews.' },
+              { initials: 'LW', name: 'Lisa Wang', role: 'Principal, Harbour Real Estate', quote: 'As a real estate agency, AML compliance was always a headache. AML Comply made it simple - vendor and buyer checks are now streamlined, and we are always audit-ready.' },
+              { initials: 'MP', name: 'Michael Peters', role: 'Managing Director, Peters Tax Group', quote: 'The integration with Xero is seamless. Client data syncs automatically, and the 100-point verification system ensures we never miss a compliance step. Highly recommended!' },
+              { initials: 'RK', name: 'Rachel Kim', role: 'Compliance Officer, National Finance', quote: 'We tried several AML solutions before finding AML Comply. The difference is night and day - intuitive interface, powerful features, and exceptional support.' },
+              { initials: 'DT', name: 'David Thompson', role: 'Senior Partner, Thompson & Co', quote: 'The document collection feature alone is worth it. Clients receive a secure link, upload their ID, and we get verified documents with an audit trail. Brilliant!' },
+              { initials: 'AH', name: 'Amanda Hughes', role: 'Owner, Coastal Bookkeeping', quote: 'As a solo bookkeeper, I needed something simple yet comprehensive. AML Comply ticks all the boxes and the pricing is very fair for small practices like mine.' },
+            ].map((testimonial, i) => (
+              <div key={i} className="relative w-[400px] shrink-0 rounded-2xl border border-border bg-card p-8 shadow-sm">
+                <div className="absolute -top-4 left-8">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                  &quot;{testimonial.quote}&quot;
+                </p>
+                <div className="mt-6 flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
+                    {testimonial.initials}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex gap-1">
+                  {[...Array(5)].map((_, j) => (
+                    <svg key={j} className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
                 </div>
               </div>
-              <p className="mt-4 text-muted-foreground">
-                &quot;AML Comply has transformed how we handle client onboarding. What used to take hours now takes minutes. The automated ID verification alone has saved us countless hours each week.&quot;
-              </p>
-              <div className="mt-6 flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
-                  SM
+            ))}
+            {/* Duplicate for seamless loop */}
+            {[
+              { initials: 'SM', name: 'Sarah Mitchell', role: 'Partner, Mitchell & Associates', quote: 'AML Comply has transformed how we handle client onboarding. What used to take hours now takes minutes. The automated ID verification alone has saved us countless hours each week.' },
+              { initials: 'JC', name: 'James Chen', role: 'Director, Pacific Bookkeeping', quote: 'The AI risk assessment feature is incredible. It flags potential issues before they become problems, and the audit trail gives us complete peace of mind during compliance reviews.' },
+              { initials: 'LW', name: 'Lisa Wang', role: 'Principal, Harbour Real Estate', quote: 'As a real estate agency, AML compliance was always a headache. AML Comply made it simple - vendor and buyer checks are now streamlined, and we are always audit-ready.' },
+              { initials: 'MP', name: 'Michael Peters', role: 'Managing Director, Peters Tax Group', quote: 'The integration with Xero is seamless. Client data syncs automatically, and the 100-point verification system ensures we never miss a compliance step. Highly recommended!' },
+              { initials: 'RK', name: 'Rachel Kim', role: 'Compliance Officer, National Finance', quote: 'We tried several AML solutions before finding AML Comply. The difference is night and day - intuitive interface, powerful features, and exceptional support.' },
+              { initials: 'DT', name: 'David Thompson', role: 'Senior Partner, Thompson & Co', quote: 'The document collection feature alone is worth it. Clients receive a secure link, upload their ID, and we get verified documents with an audit trail. Brilliant!' },
+              { initials: 'AH', name: 'Amanda Hughes', role: 'Owner, Coastal Bookkeeping', quote: 'As a solo bookkeeper, I needed something simple yet comprehensive. AML Comply ticks all the boxes and the pricing is very fair for small practices like mine.' },
+            ].map((testimonial, i) => (
+              <div key={`dup-${i}`} className="relative w-[400px] shrink-0 rounded-2xl border border-border bg-card p-8 shadow-sm">
+                <div className="absolute -top-4 left-8">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold">Sarah Mitchell</p>
-                  <p className="text-sm text-muted-foreground">Partner, Mitchell & Associates</p>
+                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                  &quot;{testimonial.quote}&quot;
+                </p>
+                <div className="mt-6 flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
+                    {testimonial.initials}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-4 flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className="relative rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-lg">
-              <div className="absolute -top-4 left-8">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
-                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="mt-4 text-muted-foreground">
-                &quot;The AI risk assessment feature is incredible. It flags potential issues before they become problems, and the audit trail gives us complete peace of mind during compliance reviews.&quot;
-              </p>
-              <div className="mt-6 flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
-                  JC
-                </div>
-                <div>
-                  <p className="font-semibold">James Chen</p>
-                  <p className="text-sm text-muted-foreground">Director, Pacific Bookkeeping</p>
+                <div className="mt-4 flex gap-1">
+                  {[...Array(5)].map((_, j) => (
+                    <svg key={j} className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
                 </div>
               </div>
-              <div className="mt-4 flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
-
-            {/* Testimonial 3 */}
-            <div className="relative rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-lg">
-              <div className="absolute -top-4 left-8">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
-                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="mt-4 text-muted-foreground">
-                &quot;As a real estate agency, AML compliance was always a headache. AML Comply made it simple - vendor and buyer checks are now streamlined, and we&apos;re always audit-ready.&quot;
-              </p>
-              <div className="mt-6 flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
-                  LW
-                </div>
-                <div>
-                  <p className="font-semibold">Lisa Wang</p>
-                  <p className="text-sm text-muted-foreground">Principal, Harbour Real Estate</p>
-                </div>
-              </div>
-              <div className="mt-4 flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
+        </div>
 
-          {/* Stats bar */}
-          <div className="mt-16 grid grid-cols-2 gap-8 rounded-2xl border border-border bg-muted/30 p-8 md:grid-cols-4">
+        {/* Stats bar */}
+        <div className="mx-auto mt-16 max-w-7xl px-6">
+          <div className="grid grid-cols-2 gap-8 rounded-2xl border border-border bg-muted/30 p-8 md:grid-cols-4">
             <div className="text-center">
               <p className="text-3xl font-bold text-[#10B981]">500+</p>
               <p className="mt-1 text-sm text-muted-foreground">Active Firms</p>
