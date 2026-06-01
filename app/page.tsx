@@ -530,12 +530,12 @@ export default function LandingPage() {
         </div>
 
         {/* Scrolling testimonials */}
-        <div className="relative mt-16">
+        <div className="relative mt-16 overflow-hidden">
           {/* Gradient overlays */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-background to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-background to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-background to-transparent md:w-32" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-background to-transparent md:w-32" />
           
-          <div className="flex animate-scroll gap-6 hover:[animation-play-state:paused]">
+          <div className="animate-scroll flex w-max gap-4 pl-4 md:gap-6">
             {[
               { initials: 'SM', name: 'Sarah Mitchell', role: 'Partner, Mitchell & Associates', quote: 'AML Comply has transformed how we handle client onboarding. What used to take hours now takes minutes. The automated ID verification alone has saved us countless hours each week.' },
               { initials: 'JC', name: 'James Chen', role: 'Director, Pacific Bookkeeping', quote: 'The AI risk assessment feature is incredible. It flags potential issues before they become problems, and the audit trail gives us complete peace of mind during compliance reviews.' },
@@ -545,24 +545,24 @@ export default function LandingPage() {
               { initials: 'DT', name: 'David Thompson', role: 'Senior Partner, Thompson & Co', quote: 'The document collection feature alone is worth it. Clients receive a secure link, upload their ID, and we get verified documents with an audit trail. Brilliant!' },
               { initials: 'AH', name: 'Amanda Hughes', role: 'Owner, Coastal Bookkeeping', quote: 'As a solo bookkeeper, I needed something simple yet comprehensive. AML Comply ticks all the boxes and the pricing is very fair for small practices like mine.' },
             ].map((testimonial, i) => (
-              <div key={i} className="relative w-[400px] shrink-0 rounded-2xl border border-border bg-card p-8 shadow-sm">
-                <div className="absolute -top-4 left-8">
+              <div key={i} className="relative w-[300px] shrink-0 rounded-2xl border border-border bg-card p-6 shadow-sm md:w-[400px] md:p-8">
+                <div className="absolute -top-4 left-6 md:left-8">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="mt-6 flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-sm font-semibold text-white md:h-12 md:w-12 md:text-lg">
                     {testimonial.initials}
                   </div>
                   <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="text-sm font-semibold md:text-base">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground md:text-sm">{testimonial.role}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex gap-1">
@@ -584,24 +584,24 @@ export default function LandingPage() {
               { initials: 'DT', name: 'David Thompson', role: 'Senior Partner, Thompson & Co', quote: 'The document collection feature alone is worth it. Clients receive a secure link, upload their ID, and we get verified documents with an audit trail. Brilliant!' },
               { initials: 'AH', name: 'Amanda Hughes', role: 'Owner, Coastal Bookkeeping', quote: 'As a solo bookkeeper, I needed something simple yet comprehensive. AML Comply ticks all the boxes and the pricing is very fair for small practices like mine.' },
             ].map((testimonial, i) => (
-              <div key={`dup-${i}`} className="relative w-[400px] shrink-0 rounded-2xl border border-border bg-card p-8 shadow-sm">
-                <div className="absolute -top-4 left-8">
+              <div key={`dup-${i}`} className="relative w-[300px] shrink-0 rounded-2xl border border-border bg-card p-6 shadow-sm md:w-[400px] md:p-8">
+                <div className="absolute -top-4 left-6 md:left-8">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10B981] text-white">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="mt-6 flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-lg font-semibold text-white">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] text-sm font-semibold text-white md:h-12 md:w-12 md:text-lg">
                     {testimonial.initials}
                   </div>
                   <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="text-sm font-semibold md:text-base">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground md:text-sm">{testimonial.role}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex gap-1">
