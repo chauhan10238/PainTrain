@@ -1,86 +1,172 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { 
   Users, 
-  ClipboardCheck, 
   AlertTriangle, 
   CheckCircle2, 
   Clock,
   Plus,
   ArrowRight,
   FileText,
+  TrendingUp,
+  ArrowUpRight,
+  ArrowDownRight,
 } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
+import { useEffect, useState } from 'react'
+import {
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
 
-export default async function DashboardPage() {
-  const supabase = await createClient()
-  
-  // Get stats
-  const { count: totalClients } = await supabase
-    .from('clients')
-    .select('*', { count: 'exact', head: true })
+interface DashboardStats {
+  totalClients: number
+  pendingVerifications: number
+  verifiedClients: number
+  highRiskClients: number
+}
 
-  const { count: pendingVerifications } = await supabase
-    .from('clients')
-    .select('*', { count: 'exact', head: true })
-    .in('verification_status', ['pending', 'in_progress'])
+interface Client {
+  id: string
+  client_type: string
+  first_name?: string
+  last_name?: string
+  entity_name?: string
+  verification_status: string
+  created_at: string
+}
 
-  const { count: verifiedClients } = await supabase
-    .from('clients')
-    .select('*', { count: 'exact', head: true })
-    .eq('verification_status', 'verified')
+interface AuditLog {
+  id: string
+  action: string
+  entity_type: string
+  created_at: string
+}
 
-  const { count: highRiskClients } = await supabase
-    .from('clients')
-    .select('*', { count: 'exact', head: true })
-    .eq('risk_level', 'high')
+export default function DashboardPage() {
+  const [stats, setStats] = useState<DashboardStats>({
+    totalClients: 0,
+    pendingVerifications: 0,
+    verifiedClients: 0,
+    highRiskClients: 0,
+  })
+  const [recentClients, setRecentClients] = useState<Client[]>([])
+  const [recentActivity, setRecentActivity] = useState<AuditLog[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Get recent clients
-  const { data: recentClients } = await supabase
-    .from('clients')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(5)
+  useEffect(() => {
+    async function fetchData() {
+      const supabase = createClient()
+      
+      // Get stats
+      const [totalRes, pendingRes, verifiedRes, highRiskRes, clientsRes, activityRes] = await Promise.all([
+        supabase.from('clients').select('*', { count: 'exact', head: true }),
+        supabase.from('clients').select('*', { count: 'exact', head: true }).in('verification_status', ['pending', 'in_progress']),
+        supabase.from('clients').select('*', { count: 'exact', head: true }).eq('verification_status', 'verified'),
+        supabase.from('clients').select('*', { count: 'exact', head: true }).eq('risk_level', 'high'),
+        supabase.from('clients').select('*').order('created_at', { ascending: false }).limit(5),
+        supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(5),
+      ])
 
-  // Get recent audit logs
-  const { data: recentActivity } = await supabase
-    .from('audit_logs')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(5)
+      setStats({
+        totalClients: totalRes.count || 0,
+        pendingVerifications: pendingRes.count || 0,
+        verifiedClients: verifiedRes.count || 0,
+        highRiskClients: highRiskRes.count || 0,
+      })
+      setRecentClients(clientsRes.data || [])
+      setRecentActivity(activityRes.data || [])
+      setLoading(false)
+    }
+    
+    fetchData()
+  }, [])
 
-  const stats = [
+  // Chart data
+  const complianceData = [
+    { name: 'Compliant', value: stats.verifiedClients, color: '#10B981' },
+    { name: 'Pending', value: stats.pendingVerifications, color: '#F59E0B' },
+    { name: 'High Risk', value: stats.highRiskClients, color: '#EF4444' },
+  ]
+
+  const trendData = [
+    { month: 'Jan', clients: 12 },
+    { month: 'Feb', clients: 19 },
+    { month: 'Mar', clients: 28 },
+    { month: 'Apr', clients: 35 },
+    { month: 'May', clients: 42 },
+    { month: 'Jun', clients: stats.totalClients || 48 },
+  ]
+
+  const complianceRate = stats.totalClients > 0 
+    ? Math.round((stats.verifiedClients / stats.totalClients) * 100) 
+    : 0
+
+  const statCards = [
     {
       name: 'Total Clients',
-      value: totalClients || 0,
+      value: stats.totalClients,
+      change: '+12%',
+      changeType: 'positive',
       icon: Users,
       href: '/dashboard/clients',
       color: 'text-blue-600 bg-blue-100',
     },
     {
       name: 'Pending Verification',
-      value: pendingVerifications || 0,
+      value: stats.pendingVerifications,
+      change: 'Requires attention',
+      changeType: 'warning',
       icon: Clock,
       href: '/dashboard/verifications',
       color: 'text-amber-600 bg-amber-100',
     },
     {
-      name: 'Verified',
-      value: verifiedClients || 0,
-      icon: CheckCircle2,
-      href: '/dashboard/clients?status=verified',
-      color: 'text-emerald-600 bg-emerald-100',
-    },
-    {
-      name: 'High Risk',
-      value: highRiskClients || 0,
+      name: 'High Risk Clients',
+      value: stats.highRiskClients,
+      change: 'Needs review',
+      changeType: 'negative',
       icon: AlertTriangle,
       href: '/dashboard/clients?risk=high',
       color: 'text-red-600 bg-red-100',
     },
+    {
+      name: 'Completed This Month',
+      value: stats.verifiedClients,
+      change: '+28% vs last month',
+      changeType: 'positive',
+      icon: CheckCircle2,
+      href: '/dashboard/clients?status=verified',
+      color: 'text-emerald-600 bg-emerald-100',
+    },
   ]
+
+  function formatTimeAgo(date: string) {
+    const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000)
+    if (seconds < 60) return 'Just now'
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`
+    return `${Math.floor(seconds / 86400)}d ago`
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
@@ -102,7 +188,7 @@ export default async function DashboardPage() {
 
       {/* Stats grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {statCards.map((stat) => (
           <Card key={stat.name} className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -114,9 +200,24 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stat.value}</div>
+              <div className="mt-1 flex items-center text-xs">
+                {stat.changeType === 'positive' && (
+                  <ArrowUpRight className="mr-1 h-3 w-3 text-emerald-500" />
+                )}
+                {stat.changeType === 'negative' && (
+                  <ArrowDownRight className="mr-1 h-3 w-3 text-red-500" />
+                )}
+                <span className={
+                  stat.changeType === 'positive' ? 'text-emerald-600' :
+                  stat.changeType === 'negative' ? 'text-red-600' :
+                  'text-amber-600'
+                }>
+                  {stat.change}
+                </span>
+              </div>
               <Link 
                 href={stat.href}
-                className="mt-1 inline-flex items-center text-xs text-muted-foreground hover:text-primary"
+                className="mt-2 inline-flex items-center text-xs text-muted-foreground hover:text-primary"
               >
                 View all
                 <ArrowRight className="ml-1 h-3 w-3" />
@@ -126,6 +227,96 @@ export default async function DashboardPage() {
         ))}
       </div>
 
+      {/* Charts Row */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Compliance Overview - Donut Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Compliance Overview</CardTitle>
+            <CardDescription>Current client compliance status</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-8">
+              <div className="relative h-40 w-40">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={complianceData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={70}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {complianceData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-3xl font-bold">{complianceRate}%</span>
+                  <span className="text-xs text-muted-foreground">Compliant</span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                {complianceData.map((item) => (
+                  <div key={item.name} className="flex items-center gap-3">
+                    <div className="h-3 w-3 rounded-full" style={{ backgroundColor: item.color }} />
+                    <span className="text-sm">{item.name}</span>
+                    <span className="ml-auto font-medium">{item.value}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {stats.totalClients > 0 ? Math.round((item.value / stats.totalClients) * 100) : 0}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Client Growth - Area Chart */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Client Growth</CardTitle>
+              <CardDescription>New clients over time</CardDescription>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-emerald-600">
+              <TrendingUp className="h-4 w-4" />
+              <span>+28%</span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-40">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={trendData}>
+                  <defs>
+                    <linearGradient id="colorClients" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                  <YAxis tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Area 
+                    type="monotone" 
+                    dataKey="clients" 
+                    stroke="#10B981" 
+                    strokeWidth={2}
+                    fill="url(#colorClients)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Activity Row */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Recent Clients */}
         <Card>
@@ -139,7 +330,7 @@ export default async function DashboardPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            {recentClients && recentClients.length > 0 ? (
+            {recentClients.length > 0 ? (
               <div className="space-y-4">
                 {recentClients.map((client) => (
                   <div key={client.id} className="flex items-center justify-between">
@@ -161,7 +352,7 @@ export default async function DashboardPage() {
                       </div>
                     </div>
                     <span className="text-sm text-muted-foreground">
-                      {formatDistanceToNow(new Date(client.created_at), { addSuffix: true })}
+                      {formatTimeAgo(client.created_at)}
                     </span>
                   </div>
                 ))}
@@ -196,12 +387,18 @@ export default async function DashboardPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            {recentActivity && recentActivity.length > 0 ? (
+            {recentActivity.length > 0 ? (
               <div className="space-y-4">
                 {recentActivity.map((log) => (
                   <div key={log.id} className="flex items-start gap-3">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary">
-                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      {log.action.includes('verif') ? (
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      ) : log.action.includes('risk') ? (
+                        <AlertTriangle className="h-4 w-4 text-amber-500" />
+                      ) : (
+                        <FileText className="h-4 w-4 text-muted-foreground" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm">
@@ -210,7 +407,7 @@ export default async function DashboardPage() {
                         <span className="text-muted-foreground">{log.entity_type}</span>
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(log.created_at), { addSuffix: true })}
+                        {formatTimeAgo(log.created_at)}
                       </p>
                     </div>
                   </div>
