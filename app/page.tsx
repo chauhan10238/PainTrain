@@ -815,12 +815,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Download / Newsletter Section */}
-      <section className="py-20">
+      {/* Newsletter Section */}
+      <section className="border-b border-border py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div>
-              <h2 className="text-2xl font-bold">Download for free.</h2>
+          <h2 className="text-2xl font-bold">Join for free.</h2>
               <p className="mt-4 text-muted-foreground">
                 The AML landscape is transforming at lightning speed. To help you stay ahead, 
                 we&apos;ve created free, insight-packed resources that explore the emerging 
