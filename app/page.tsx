@@ -672,17 +672,41 @@ export default function LandingPage() {
               <div className="space-y-3">
                 {/* Gmail */}
                 <div className="flex items-center gap-3">
-                  <Image src="https://cdn.worldvectorlogo.com/logos/gmail-icon-1.svg" alt="Gmail" width={32} height={32} className="h-8 w-8" />
+                  <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4H20C21.1 4 22 4.9 22 6Z" fill="#F6F6F6"/>
+                    <path d="M22 6L12 13L2 6" stroke="#EA4335" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M2 6V18C2 19.1 2.9 20 4 20H5V8L12 13L19 8V20H20C21.1 20 22 19.1 22 18V6L12 13L2 6Z" fill="white"/>
+                    <path d="M2 6L12 13" stroke="#4285F4" strokeWidth="2"/>
+                    <path d="M22 6L12 13" stroke="#34A853" strokeWidth="2"/>
+                    <path d="M5 20V8L12 13L19 8V20" stroke="#FBBC05" strokeWidth="0"/>
+                    <rect x="2" y="6" width="3" height="14" fill="#4285F4" rx="0"/>
+                    <rect x="19" y="6" width="3" height="14" fill="#34A853" rx="0"/>
+                    <path d="M5 20L5 9L12 14L19 9V20" fill="#FBBC05"/>
+                    <path d="M2 6L12 13L22 6" fill="#EA4335"/>
+                  </svg>
                   <span className="text-sm font-medium">Gmail</span>
                 </div>
                 {/* Outlook */}
                 <div className="flex items-center gap-3">
-                  <Image src="https://cdn.worldvectorlogo.com/logos/outlook-1.svg" alt="Outlook" width={32} height={32} className="h-8 w-8" />
+                  <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#0078D4"/>
+                    <rect x="2" y="5" width="11" height="14" rx="1" fill="#0078D4"/>
+                    <ellipse cx="7.5" cy="12" rx="3.5" ry="4" fill="white"/>
+                    <ellipse cx="7.5" cy="12" rx="1.8" ry="2.5" fill="#0078D4"/>
+                    <path d="M14 7L22 11V18L14 22V7Z" fill="#28A8EA"/>
+                    <path d="M14 7L22 11L22 18L14 14V7Z" fill="#0078D4" fillOpacity="0.5"/>
+                  </svg>
                   <span className="text-sm font-medium">Outlook</span>
                 </div>
                 {/* SendGrid */}
                 <div className="flex items-center gap-3">
-                  <Image src="https://cdn.worldvectorlogo.com/logos/sendgrid-1.svg" alt="SendGrid" width={32} height={32} className="h-8 w-8" />
+                  <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#1A82E2"/>
+                    <rect x="4" y="10" width="6" height="6" fill="white"/>
+                    <rect x="10" y="4" width="6" height="6" fill="white"/>
+                    <rect x="10" y="10" width="6" height="6" fill="white" fillOpacity="0.6"/>
+                    <rect x="10" y="14" width="6" height="6" fill="white"/>
+                  </svg>
                   <span className="text-sm font-medium">SendGrid</span>
                 </div>
               </div>
