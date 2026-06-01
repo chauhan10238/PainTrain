@@ -18,12 +18,16 @@ import {
   CheckCircle2,
   Clock,
   Plus,
+  Send,
+  Copy,
+  ExternalLink,
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { VerificationProgress } from '@/components/clients/verification-progress'
 import { ClientNotes } from '@/components/clients/client-notes'
 import { IDVerificationList } from '@/components/clients/id-verification-list'
 import { StripeIdentityVerification } from '@/components/verification/stripe-identity-verification'
+import { ClientPortalLink } from '@/components/clients/client-portal-link'
 
 const statusColors: Record<string, string> = {
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -136,6 +140,15 @@ export default async function ClientDetailPage({
       <VerificationProgress 
         points={client.verification_points} 
         status={client.verification_status}
+      />
+
+      {/* Client Portal Link */}
+      <ClientPortalLink 
+        clientId={client.id}
+        clientName={clientName}
+        clientEmail={client.email}
+        onboardingToken={client.onboarding_token}
+        onboardingStatus={client.onboarding_status}
       />
 
       {/* Stripe Identity Verification - show when 100 points reached or biometric in progress */}
