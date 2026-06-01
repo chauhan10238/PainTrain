@@ -600,35 +600,22 @@ export default function LandingPage() {
               <div className="space-y-3">
                 {/* Xero */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <circle cx="16" cy="16" r="16" fill="#13B5EA"/>
-                    <path d="M9.5 11.5L14.5 16L9.5 20.5M14.5 16L9.5 20.5M17.5 11.5L22.5 16L17.5 20.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/xero-1.svg" alt="Xero" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Xero</span>
                 </div>
                 {/* QuickBooks */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <circle cx="16" cy="16" r="16" fill="#2CA01C"/>
-                    <path d="M16 8C11.6 8 8 11.6 8 16s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z" fill="white"/>
-                    <path d="M14 12v8M18 12v8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/quickbooks-2.svg" alt="QuickBooks" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">QuickBooks</span>
                 </div>
                 {/* MYOB */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="4" fill="#6D2C91"/>
-                    <text x="16" y="20" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">MYOB</text>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/myob.svg" alt="MYOB" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">MYOB</span>
                 </div>
                 {/* Sage */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="4" fill="#00D639"/>
-                    <text x="16" y="20" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold">Sage</text>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/sage-logo.svg" alt="Sage" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Sage</span>
                 </div>
               </div>
@@ -643,19 +630,12 @@ export default function LandingPage() {
               <div className="space-y-3">
                 {/* Stripe */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#635BFF"/>
-                    <path d="M15.2 13.2c0-.8.7-1.2 1.8-1.2 1.6 0 3.6.5 5.2 1.4V9.2c-1.7-.7-3.5-1-5.2-1-4.3 0-7.2 2.2-7.2 6 0 5.8 8 4.9 8 7.4 0 1-.9 1.4-2.1 1.4-1.8 0-4.2-.8-6-1.8v4.4c2 .9 4.1 1.2 6 1.2 4.4 0 7.4-2.2 7.4-6 0-6.3-8-5.2-8-7.6z" fill="white"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/stripe-4.svg" alt="Stripe" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Stripe</span>
                 </div>
                 {/* Stripe Identity */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#635BFF"/>
-                    <circle cx="16" cy="12" r="4" fill="white"/>
-                    <path d="M10 24c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="white" strokeWidth="2" fill="none"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/stripe-4.svg" alt="Stripe Identity" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Stripe Identity</span>
                 </div>
               </div>
@@ -670,20 +650,14 @@ export default function LandingPage() {
               <div className="space-y-3">
                 {/* Groq */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#F55036"/>
-                    <path d="M8 16h16M16 8v16" stroke="white" strokeWidth="3" strokeLinecap="round"/>
-                  </svg>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F55036]">
+                    <span className="text-xs font-bold text-white">Groq</span>
+                  </div>
                   <span className="text-sm font-medium">Groq AI</span>
                 </div>
                 {/* Document AI */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#4285F4"/>
-                    <path d="M10 8h8l6 6v12a2 2 0 01-2 2H10a2 2 0 01-2-2V10a2 2 0 012-2z" fill="white"/>
-                    <path d="M18 8v6h6" fill="#4285F4"/>
-                    <path d="M12 18h8M12 22h5" stroke="#4285F4" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/google-cloud-1.svg" alt="Document AI" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Document AI</span>
                 </div>
               </div>
@@ -698,36 +672,17 @@ export default function LandingPage() {
               <div className="space-y-3">
                 {/* Gmail */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="white"/>
-                    <path d="M4 8h24v16H4z" fill="#F1F1F1"/>
-                    <path d="M4 8l12 9 12-9" stroke="#EA4335" strokeWidth="2" fill="none"/>
-                    <path d="M4 8v16h4V12l8 6 8-6v12h4V8" fill="none"/>
-                    <path d="M4 8l12 9 12-9H4z" fill="#EA4335"/>
-                    <path d="M4 24h4V12l8 6 8-6v12h4" stroke="#34A853" strokeWidth="0" fill="#34A853"/>
-                    <rect x="4" y="8" width="4" height="16" fill="#4285F4"/>
-                    <rect x="24" y="8" width="4" height="16" fill="#FBBC05"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/gmail-icon-1.svg" alt="Gmail" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Gmail</span>
                 </div>
                 {/* Outlook */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#0078D4"/>
-                    <path d="M6 10h12v12H6z" fill="#0078D4"/>
-                    <ellipse cx="12" cy="16" rx="4" ry="5" fill="white"/>
-                    <ellipse cx="12" cy="16" rx="2" ry="3" fill="#0078D4"/>
-                    <path d="M20 8v16l8-4V12l-8-4z" fill="#28A8EA"/>
-                    <path d="M20 8l8 4v12" stroke="#0078D4" strokeWidth="0" fill="#0078D4" fillOpacity="0.3"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/outlook-1.svg" alt="Outlook" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">Outlook</span>
                 </div>
                 {/* SendGrid */}
                 <div className="flex items-center gap-3">
-                  <svg className="h-8 w-8" viewBox="0 0 32 32" fill="none">
-                    <rect width="32" height="32" rx="6" fill="#1A82E2"/>
-                    <path d="M8 12h8v8H8zM16 8h8v8h-8zM16 16h8v8h-8z" fill="white"/>
-                  </svg>
+                  <Image src="https://cdn.worldvectorlogo.com/logos/sendgrid-1.svg" alt="SendGrid" width={32} height={32} className="h-8 w-8" />
                   <span className="text-sm font-medium">SendGrid</span>
                 </div>
               </div>
