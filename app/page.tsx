@@ -43,11 +43,11 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0066FF] text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#10B981] text-white">
               <Shield className="h-5 w-5" />
             </div>
             <span className="text-xl font-bold tracking-tight">
-              AML<span className="text-[#0066FF]">Comply</span>
+              AML<span className="text-[#10B981]">Comply</span>
             </span>
           </Link>
           
@@ -73,7 +73,7 @@ export default function LandingPage() {
             <Button variant="ghost" asChild className="hidden sm:inline-flex">
               <Link href="/auth/login">LOGIN</Link>
             </Button>
-            <Button asChild className="bg-[#0066FF] hover:bg-[#0052CC]">
+            <Button asChild className="bg-[#10B981] hover:bg-[#059669]">
               <Link href="/auth/sign-up">REGISTER</Link>
             </Button>
           </div>
@@ -87,7 +87,7 @@ export default function LandingPage() {
           <div className="text-center">
             <h1 className="text-4xl font-light tracking-tight text-foreground md:text-5xl lg:text-6xl">
               Your Complete{' '}
-              <span className="font-bold text-[#0066FF]">AML Compliance Suite</span>
+              <span className="font-bold text-[#10B981]">AML Compliance Suite</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
               <span className="font-semibold text-foreground">For Australian Service Providers.</span>{' '}
@@ -130,9 +130,9 @@ export default function LandingPage() {
           <div className="mx-auto mt-12 flex max-w-3xl flex-wrap justify-center gap-4">
             <Link
               href="#onboarding"
-              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#0066FF] hover:shadow-lg"
+              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#10B981] hover:shadow-lg"
             >
-              <Users className="mb-3 h-8 w-8 text-[#0066FF]" />
+              <Users className="mb-3 h-8 w-8 text-[#10B981]" />
               <span className="font-semibold">Onboarding</span>
               <span className="mt-1 text-sm text-muted-foreground">
                 Onboard new clients with ease,<br />including complex entities.
@@ -140,9 +140,9 @@ export default function LandingPage() {
             </Link>
             <Link
               href="#verification"
-              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#0066FF] hover:shadow-lg"
+              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#10B981] hover:shadow-lg"
             >
-              <FileCheck className="mb-3 h-8 w-8 text-[#0066FF]" />
+              <FileCheck className="mb-3 h-8 w-8 text-[#10B981]" />
               <span className="font-semibold">ID Verification</span>
               <span className="mt-1 text-sm text-muted-foreground">
                 100-point ID checks with<br />AI document extraction.
@@ -150,9 +150,9 @@ export default function LandingPage() {
             </Link>
             <Link
               href="#compliance"
-              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#0066FF] hover:shadow-lg"
+              className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 text-center transition-all hover:border-[#10B981] hover:shadow-lg"
             >
-              <Shield className="mb-3 h-8 w-8 text-[#0066FF]" />
+              <Shield className="mb-3 h-8 w-8 text-[#10B981]" />
               <span className="font-semibold">Compliance</span>
               <span className="mt-1 text-sm text-muted-foreground">
                 Complete audit trail and<br />7-year document retention.
@@ -195,14 +195,14 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 text-center">
-            <div className="mx-auto max-w-2xl rounded-xl border border-[#0066FF]/30 bg-[#0066FF]/5 p-6">
-              <p className="text-lg font-semibold text-[#0066FF]">
+            <div className="mx-auto max-w-2xl rounded-xl border border-[#10B981]/30 bg-[#10B981]/5 p-6">
+              <p className="text-lg font-semibold text-[#10B981]">
                 We turn AML compliance into a simple automated workflow.
               </p>
               <p className="mt-2 text-muted-foreground">
                 Stop wasting time on manual processes. Let AML Comply handle the heavy lifting.
               </p>
-              <Button asChild className="mt-4 bg-[#0066FF] hover:bg-[#0052CC]">
+              <Button asChild className="mt-4 bg-[#10B981] hover:bg-[#059669]">
                 <Link href="/auth/sign-up">
                   Start Free Trial
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -218,7 +218,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold md:text-4xl">
-              From New Client → <span className="text-[#0066FF]">AML Ready</span> in Minutes
+              From New Client → <span className="text-[#10B981]">AML Ready</span> in Minutes
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               Our streamlined workflow takes clients from onboarding to compliance in 5 simple steps
@@ -237,7 +237,7 @@ export default function LandingPage() {
                 <div key={i} className="flex items-center gap-4">
                   <div className="flex flex-col items-center text-center">
                     <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0066FF] text-white shadow-lg">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#10B981] text-white shadow-lg">
                         <item.icon className="h-7 w-7" />
                       </div>
                       <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-xs font-bold text-background">
@@ -262,7 +262,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold md:text-4xl">
-              One Platform. <span className="text-[#0066FF]">Everything Connected.</span>
+              One Platform. <span className="text-[#10B981]">Everything Connected.</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               Four powerful modules working together to simplify your AML compliance
@@ -271,9 +271,9 @@ export default function LandingPage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {/* Client Onboarding Hub */}
-            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
-                <Users className="h-6 w-6 text-[#0066FF]" />
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#10B981]/10">
+                <Users className="h-6 w-6 text-[#10B981]" />
               </div>
               <h3 className="text-lg font-semibold">Client Onboarding Hub</h3>
               <p className="mt-2 text-sm text-muted-foreground">Your digital front door.</p>
@@ -288,9 +288,9 @@ export default function LandingPage() {
             </div>
 
             {/* Identity Verification */}
-            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
-                <Fingerprint className="h-6 w-6 text-[#0066FF]" />
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#10B981]/10">
+                <Fingerprint className="h-6 w-6 text-[#10B981]" />
               </div>
               <h3 className="text-lg font-semibold">Identity Verification</h3>
               <p className="mt-2 text-sm text-muted-foreground">Stop manually checking IDs.</p>
@@ -305,9 +305,9 @@ export default function LandingPage() {
             </div>
 
             {/* AML Compliance Centre */}
-            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
-                <ClipboardList className="h-6 w-6 text-[#0066FF]" />
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#10B981]/10">
+                <ClipboardList className="h-6 w-6 text-[#10B981]" />
               </div>
               <h3 className="text-lg font-semibold">AML Compliance Centre</h3>
               <p className="mt-2 text-sm text-muted-foreground">Your compliance workspace.</p>
@@ -322,9 +322,9 @@ export default function LandingPage() {
             </div>
 
             {/* AI Compliance Assistant */}
-            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#0066FF]/10">
-                <Bot className="h-6 w-6 text-[#0066FF]" />
+            <div className="rounded-2xl border border-border bg-card p-6 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#10B981]/10">
+                <Bot className="h-6 w-6 text-[#10B981]" />
               </div>
               <h3 className="text-lg font-semibold">AI Compliance Assistant</h3>
               <p className="mt-2 text-sm text-muted-foreground">Your virtual AML support.</p>
@@ -346,7 +346,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold md:text-4xl">
-              Built Around <span className="text-[#0066FF]">Your Business</span>
+              Built Around <span className="text-[#10B981]">Your Business</span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               Purpose-built solutions for Australian professional services
@@ -355,8 +355,8 @@ export default function LandingPage() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {/* Accountants */}
-            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#10B981]">
                 <Calculator className="h-7 w-7 text-white" />
               </div>
               <h3 className="text-xl font-semibold">Accountants</h3>
@@ -372,8 +372,8 @@ export default function LandingPage() {
             </div>
 
             {/* Bookkeepers */}
-            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#10B981]">
                 <FileSpreadsheet className="h-7 w-7 text-white" />
               </div>
               <h3 className="text-xl font-semibold">Bookkeepers</h3>
@@ -388,8 +388,8 @@ export default function LandingPage() {
             </div>
 
             {/* Real Estate */}
-            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#0066FF] hover:shadow-lg">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0066FF]">
+            <div className="rounded-2xl border border-border bg-card p-8 transition-all hover:border-[#10B981] hover:shadow-lg">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#10B981]">
                 <Home className="h-7 w-7 text-white" />
               </div>
               <h3 className="text-xl font-semibold">Real Estate</h3>
@@ -407,7 +407,7 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 6 — The AI Differentiator */}
-      <section className="bg-gradient-to-b from-[#0066FF] to-[#0052CC] py-20 text-white">
+      <section className="bg-gradient-to-b from-[#071A2D] to-[#0F2942] py-20 text-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold md:text-4xl">
@@ -439,20 +439,20 @@ export default function LandingPage() {
 
             {/* Our Platform */}
             <div className="rounded-2xl border border-white/30 bg-white p-8 text-foreground">
-              <h3 className="mb-6 text-lg font-semibold text-[#0066FF]">Our platform:</h3>
+              <h3 className="mb-6 text-lg font-semibold text-[#10B981]">Our platform:</h3>
               <div className="flex items-center justify-center gap-4">
-                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                <div className="rounded-lg bg-[#10B981]/10 px-4 py-3 text-center">
                   <span className="text-sm font-medium">Client submits</span>
                 </div>
-                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
-                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                <ArrowRight className="h-5 w-5 text-[#10B981]" />
+                <div className="rounded-lg bg-[#10B981]/10 px-4 py-3 text-center">
                   <span className="text-sm font-medium">AI reviews</span>
                 </div>
-                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
-                <div className="rounded-lg bg-[#0066FF]/10 px-4 py-3 text-center">
+                <ArrowRight className="h-5 w-5 text-[#10B981]" />
+                <div className="rounded-lg bg-[#10B981]/10 px-4 py-3 text-center">
                   <span className="text-sm font-medium">System alerts</span>
                 </div>
-                <ArrowRight className="h-5 w-5 text-[#0066FF]" />
+                <ArrowRight className="h-5 w-5 text-[#10B981]" />
                 <div className="rounded-lg bg-green-100 px-4 py-3 text-center">
                   <span className="text-sm font-medium text-green-700">Reports ready</span>
                 </div>
@@ -470,7 +470,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
             <h2 className="text-3xl font-bold md:text-4xl">
-              Built for <span className="text-[#0066FF]">Australian Compliance</span> Requirements
+              Built for <span className="text-[#10B981]">Australian Compliance</span> Requirements
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               Designed from the ground up to meet AUSTRAC&apos;s AML/CTF requirements
@@ -485,9 +485,9 @@ export default function LandingPage() {
               { icon: LineChart, title: 'Compliance Dashboard', desc: 'Real-time insights' },
               { icon: Bot, title: 'AI Powered Reviews', desc: 'Smart risk detection' },
             ].map((item) => (
-              <div key={item.title} className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-[#0066FF] hover:shadow-md">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#0066FF]/10">
-                  <item.icon className="h-7 w-7 text-[#0066FF]" />
+              <div key={item.title} className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center transition-all hover:border-[#10B981] hover:shadow-md">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#10B981]/10">
+                  <item.icon className="h-7 w-7 text-[#10B981]" />
                 </div>
                 <h3 className="font-semibold">{item.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
@@ -498,15 +498,15 @@ export default function LandingPage() {
       </section>
 
       {/* Onboarding Section */}
-      <section id="onboarding" className="bg-gradient-to-b from-[#0066FF] to-[#0052CC] py-16 text-white">
+      <section id="onboarding" className="bg-gradient-to-b from-[#071A2D] to-[#0F2942] py-16 text-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="order-2 lg:order-1">
               <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 backdrop-blur">
                 <div className="rounded-xl bg-white p-6 text-foreground">
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0066FF]/10">
-                      <Users className="h-5 w-5 text-[#0066FF]" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#10B981]/10">
+                      <Users className="h-5 w-5 text-[#10B981]" />
                     </div>
                     <div>
                       <div className="font-semibold">New Client Onboarding</div>
@@ -518,7 +518,7 @@ export default function LandingPage() {
                       <CheckCircle2 className="h-5 w-5 text-green-600" />
                       <span className="text-sm">Personal Details</span>
                     </div>
-                    <div className="flex items-center gap-3 rounded-lg border border-[#0066FF] bg-[#0066FF]/5 p-3">
+                    <div className="flex items-center gap-3 rounded-lg border border-[#0066FF] bg-[#10B981]/5 p-3">
                       <div className="h-5 w-5 rounded-full border-2 border-[#0066FF]" />
                       <span className="text-sm font-medium">ID Verification</span>
                     </div>
@@ -578,7 +578,7 @@ export default function LandingPage() {
             {/* Accounting */}
             <div className="rounded-xl border border-border bg-card p-6">
               <div className="mb-4 flex items-center gap-2">
-                <Calculator className="h-5 w-5 text-[#0066FF]" />
+                <Calculator className="h-5 w-5 text-[#10B981]" />
                 <span className="text-sm font-semibold text-muted-foreground">ACCOUNTING</span>
               </div>
               <div className="space-y-3">
@@ -596,7 +596,7 @@ export default function LandingPage() {
             {/* Payments & Identity */}
             <div className="rounded-xl border border-border bg-card p-6">
               <div className="mb-4 flex items-center gap-2">
-                <CreditCard className="h-5 w-5 text-[#0066FF]" />
+                <CreditCard className="h-5 w-5 text-[#10B981]" />
                 <span className="text-sm font-semibold text-muted-foreground">PAYMENTS & IDENTITY</span>
               </div>
               <div className="space-y-3">
@@ -614,7 +614,7 @@ export default function LandingPage() {
             {/* AI & Automation */}
             <div className="rounded-xl border border-border bg-card p-6">
               <div className="mb-4 flex items-center gap-2">
-                <Brain className="h-5 w-5 text-[#0066FF]" />
+                <Brain className="h-5 w-5 text-[#10B981]" />
                 <span className="text-sm font-semibold text-muted-foreground">AI & AUTOMATION</span>
               </div>
               <div className="space-y-3">
@@ -635,7 +635,7 @@ export default function LandingPage() {
             {/* Communication */}
             <div className="rounded-xl border border-border bg-card p-6">
               <div className="mb-4 flex items-center gap-2">
-                <Mail className="h-5 w-5 text-[#0066FF]" />
+                <Mail className="h-5 w-5 text-[#10B981]" />
                 <span className="text-sm font-semibold text-muted-foreground">COMMUNICATION</span>
               </div>
               <div className="space-y-3">
@@ -657,7 +657,7 @@ export default function LandingPage() {
 
           <div className="mt-8 text-center">
             <p className="text-sm text-muted-foreground">
-              More integrations coming soon. <Link href="#contact" className="text-[#0066FF] hover:underline">Request an integration</Link>
+              More integrations coming soon. <Link href="#contact" className="text-[#10B981] hover:underline">Request an integration</Link>
             </p>
           </div>
         </div>
@@ -684,12 +684,12 @@ export default function LandingPage() {
                   'Real-time PEP & sanctions screening',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-[#0066FF]" />
+                    <CheckCircle2 className="h-5 w-5 text-[#10B981]" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button asChild className="mt-8 bg-[#0066FF] hover:bg-[#0052CC]">
+              <Button asChild className="mt-8 bg-[#10B981] hover:bg-[#059669]">
                 <Link href="/auth/sign-up">
                   READ MORE
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -718,12 +718,12 @@ export default function LandingPage() {
                   </div>
                   <span className="text-sm font-medium text-green-600">40 pts</span>
                 </div>
-                <div className="flex items-center justify-between rounded-lg border border-[#0066FF] bg-[#0066FF]/5 p-3">
+                <div className="flex items-center justify-between rounded-lg border border-[#0066FF] bg-[#10B981]/5 p-3">
                   <div className="flex items-center gap-3">
-                    <Fingerprint className="h-5 w-5 text-[#0066FF]" />
+                    <Fingerprint className="h-5 w-5 text-[#10B981]" />
                     <span className="text-sm font-medium">Biometric Verification</span>
                   </div>
-                  <span className="rounded bg-[#0066FF] px-2 py-0.5 text-xs text-white">Ready</span>
+                  <span className="rounded bg-[#10B981] px-2 py-0.5 text-xs text-white">Ready</span>
                 </div>
               </div>
             </div>
@@ -773,12 +773,12 @@ export default function LandingPage() {
                   'Risk-based reassessment scheduling',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-[#0066FF]" />
+                    <CheckCircle2 className="h-5 w-5 text-[#10B981]" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Button asChild className="mt-8 bg-[#0066FF] hover:bg-[#0052CC]">
+              <Button asChild className="mt-8 bg-[#10B981] hover:bg-[#059669]">
                 <Link href="/auth/sign-up">
                   READ MORE
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -806,7 +806,7 @@ export default function LandingPage() {
               { icon: BarChart3, title: 'Real-Time Insights', desc: 'Dashboard analytics and compliance reporting' },
             ].map((feature) => (
               <div key={feature.title} className="rounded-xl border border-white/10 bg-white/5 p-6">
-                <feature.icon className="mx-auto mb-4 h-10 w-10 text-[#0066FF]" />
+                <feature.icon className="mx-auto mb-4 h-10 w-10 text-[#10B981]" />
                 <h3 className="font-semibold">{feature.title}</h3>
                 <p className="mt-2 text-sm text-white/60">{feature.desc}</p>
               </div>
@@ -836,7 +836,7 @@ export default function LandingPage() {
                   <label className="text-sm font-medium">Your email</label>
                   <Input type="email" placeholder="email@example.com" className="mt-1" />
                 </div>
-                <Button className="bg-[#0066FF] hover:bg-[#0052CC]">
+                <Button className="bg-[#10B981] hover:bg-[#059669]">
                   Get PDFs
                 </Button>
               </form>
@@ -874,7 +874,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Banner */}
-      <section className="bg-[#0066FF] py-12">
+      <section className="bg-[#10B981] py-12">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <h2 className="text-2xl font-bold text-white">
             AML Comply is free while in beta
@@ -882,7 +882,7 @@ export default function LandingPage() {
           <p className="mt-2 text-white/80">
             It&apos;s easy to set up an account. See for yourself what it&apos;s all about, for free!
           </p>
-          <Button variant="outline" size="lg" asChild className="mt-6 border-white bg-transparent text-white hover:bg-white hover:text-[#0066FF]">
+          <Button variant="outline" size="lg" asChild className="mt-6 border-white bg-transparent text-white hover:bg-white hover:text-[#10B981]">
             <Link href="/auth/sign-up">CREATE ACCOUNT</Link>
           </Button>
         </div>
@@ -894,11 +894,11 @@ export default function LandingPage() {
           <div className="grid gap-8 md:grid-cols-5">
             <div className="md:col-span-2">
               <Link href="/" className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0066FF] text-white">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#10B981] text-white">
                   <Shield className="h-4 w-4" />
                 </div>
                 <span className="font-bold">
-                  AML<span className="text-[#0066FF]">Comply</span>
+                  AML<span className="text-[#10B981]">Comply</span>
                 </span>
               </Link>
               <p className="mt-4 text-sm text-muted-foreground">
