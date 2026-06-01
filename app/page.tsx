@@ -214,45 +214,61 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 3 — The Workflow (Visual) */}
-      <section className="border-b border-border py-20">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="relative overflow-hidden border-b border-border py-24">
+        {/* Premium background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#10B981]/5 via-transparent to-transparent" />
+        <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#10B981]/10 blur-3xl" />
+        
+        <div className="relative mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <h2 className="text-3xl font-bold md:text-4xl">
-              From New Client → <span className="text-[#10B981]">AML Ready</span> in Minutes
+            <span className="inline-block rounded-full bg-[#10B981]/10 px-4 py-1.5 text-sm font-medium text-[#10B981]">
+              Streamlined Process
+            </span>
+            <h2 className="mt-6 text-3xl font-bold tracking-tight md:text-5xl">
+              From New Client → <span className="bg-gradient-to-r from-[#10B981] to-[#059669] bg-clip-text text-transparent">AML Ready</span> in Minutes
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
               Our streamlined workflow takes clients from onboarding to compliance in 5 simple steps
             </p>
           </div>
 
-          <div className="mt-16">
-            <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+          <div className="mt-20">
+            {/* Connection line - hidden on mobile */}
+            <div className="absolute left-1/2 hidden h-1 w-[70%] -translate-x-1/2 translate-y-10 rounded-full bg-gradient-to-r from-[#10B981]/20 via-[#10B981]/40 to-[#10B981]/20 md:block" />
+            
+            <div className="relative flex flex-col items-center gap-12 md:flex-row md:justify-between md:gap-4">
               {[
                 { step: 1, icon: Users, title: 'Create Client', desc: 'Individual | Company | Trust' },
                 { step: 2, icon: Send, title: 'Send Secure Link', desc: 'Client completes details' },
                 { step: 3, icon: UserCheck, title: 'Verify Identity', desc: 'Digital verification completed' },
                 { step: 4, icon: Brain, title: 'AI Risk Review', desc: 'Risk profile generated' },
                 { step: 5, icon: ShieldCheck, title: 'Audit Ready', desc: 'Reports & registers maintained' },
-              ].map((item, i, arr) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#10B981] text-white shadow-lg">
-                        <item.icon className="h-7 w-7" />
-                      </div>
-                      <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-xs font-bold text-background">
-                        {item.step}
-                      </div>
+              ].map((item, i) => (
+                <div key={i} className="group flex flex-col items-center text-center">
+                  <div className="relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-[#10B981] opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40" />
+                    {/* Icon container */}
+                    <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[#10B981] to-[#059669] text-white shadow-xl shadow-[#10B981]/25 transition-transform duration-300 group-hover:scale-110">
+                      <item.icon className="h-9 w-9" />
                     </div>
-                    <h3 className="mt-4 font-semibold">{item.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+                    {/* Step number badge */}
+                    <div className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-sm font-bold text-background shadow-lg ring-4 ring-background">
+                      {item.step}
+                    </div>
                   </div>
-                  {i < arr.length - 1 && (
-                    <ArrowRight className="hidden h-6 w-6 shrink-0 text-muted-foreground md:block" />
-                  )}
+                  <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
+                  <p className="mt-2 max-w-[160px] text-sm text-muted-foreground">{item.desc}</p>
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-16 text-center">
+            <p className="text-sm text-muted-foreground">
+              Average onboarding time: <span className="font-semibold text-[#10B981]">Under 5 minutes</span>
+            </p>
           </div>
         </div>
       </section>
